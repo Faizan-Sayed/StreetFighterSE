@@ -11,8 +11,18 @@ public class KenController : MonoBehaviour
     }
 
     // Update is called once per frame
+    public float kenSpeed = 5f;
     void Update()
     {
-        
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.position += new Vector3(speed * Time.deltaTime, 1f, 1f);
+
+        }
+
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.position -= new Vector3(speed * Time.deltaTime, 1f, 1f);
+        }
     }
 }

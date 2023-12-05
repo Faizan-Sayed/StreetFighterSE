@@ -8,7 +8,7 @@ public class RyuController : MonoBehaviour
     [SerializeField] private float height;
 
     public Rigidbody2D rb;
-
+    public Animator animate;
 
     private bool grounded;
     private bool crouch;
@@ -37,13 +37,18 @@ public class RyuController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        animate.SetFloat("speed", 0);
+        animate.SetBool("jumping", !grounded);
+
         if (Input.GetKey("left") && grounded)
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);
+            animate.SetFloat("speed", -1);
         }
         if (Input.GetKey("right") && grounded)
         {
             rb.velocity = new Vector2(speed, rb.velocity.y);
+            animate.SetFloat("speed", 1);
         }
         if (Input.GetKeyDown("up") && (Input.GetKey("right") || Input.GetKey("left")) && grounded)
         {

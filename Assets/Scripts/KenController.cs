@@ -8,10 +8,6 @@ public class KenController : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float height;
-    public int maxHealth = 100;
-    public int currentHealth;
-    public HealthBar1 healthBar;
-    public int damage = 10;
 
     public Transform Mid;
     [SerializeField] private float rangemid;
@@ -21,6 +17,8 @@ public class KenController : MonoBehaviour
     [SerializeField] private float rangelow;
 
     public LayerMask ryulayer;
+
+    public Animator animator;
 
     public Rigidbody2D rb;
 
@@ -108,8 +106,6 @@ public class KenController : MonoBehaviour
         }
 
         // attacks time!
-
-
 
         if (Input.GetKeyDown("r") && grounded)
         {

@@ -11,6 +11,7 @@ public class KenController : MonoBehaviour
 
     public Rigidbody2D rb;
 
+    public Animator animator;
 
     private bool grounded;
     private bool crouch;
@@ -41,25 +42,28 @@ public class KenController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        animator.SetFloat("speed", 0);
+        animator.SetBool("jumping", !grounded);
+
         if (Input.GetKey("a") && grounded)
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);
+            animator.SetFloat("speed", -1);
         }
         if (Input.GetKey("d") && grounded)
         {
             rb.velocity = new Vector2(speed, rb.velocity.y);
+            animator.SetFloat("speed", 1);
         }
-        if (Input.GetKeyDown("w") && Input.GetKey("d") && grounded)
+        if (Input.GetKeyDown("w") && (Input.GetKey("d") || Input.GetKey("a")) && grounded)
         {
             rb.velocity = new Vector2(rb.velocity.x, height);
-        }
-        if (Input.GetKeyDown("w") && Input.GetKey("a") && grounded)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, height);
+            animator.SetBool("jumping", true);
         }
         if (Input.GetKeyDown("w") && grounded)
         {
             rb.velocity = new Vector2(0, height);
+            animator.SetBool("jumping", true);
         }
         if (Input.GetKey("s") && grounded)
         {

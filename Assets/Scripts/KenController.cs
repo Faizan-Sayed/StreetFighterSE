@@ -31,7 +31,6 @@ public class KenController : MonoBehaviour
     public HealthBar1 healthBar;
     public int damage = 10;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +38,7 @@ public class KenController : MonoBehaviour
         rb.freezeRotation = true;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+        StartCoroutine(CheckDeath(0.1f));
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -130,6 +130,16 @@ public class KenController : MonoBehaviour
 
         }
 
+    }
+    IEnumerator CheckDeath(float waitTime)
+    {
+        while(true) {
+            if (currentHealth <= 0) 
+            {
+                Debug.Log("Game Over!");
+            }
+            yield return new WaitForSeconds(waitTime);
+        }
     }
 
     void SpawnHitbox()

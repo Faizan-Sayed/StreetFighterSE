@@ -34,6 +34,7 @@ public class RyuController : MonoBehaviour
         rb.freezeRotation = true;
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
+        StartCoroutine(CheckDeath(0.1f));
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -124,6 +125,18 @@ public class RyuController : MonoBehaviour
 
         }
     }
+
+    IEnumerator CheckDeath(float waitTime)
+    {
+        while(true) {
+            if (currentHealth <= 0) 
+            {
+                Debug.Log("Game Over!");
+            }
+            yield return new WaitForSeconds(waitTime);
+        }
+    }
+
     void SpawnHitbox()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Mid.position, rangemid, kenlayer);

@@ -59,6 +59,12 @@ public class KenController : MonoBehaviour
         highblock = false;
         lowblock = false; 
 
+        move();
+        attacks();
+    }
+
+    void move() 
+    {
         if (Input.GetKey("a") && grounded)
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);
@@ -94,34 +100,34 @@ public class KenController : MonoBehaviour
         {
             crouch = false;
         }
-
-        // attacks time!
-
-
-
+    }
+    void attacks() 
+    {
         if (Input.GetKeyDown("r") && grounded)
         {
             animator.SetTrigger("mid");
             Invoke("SpawnHitbox", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("t") && grounded)
         {
             animator.SetTrigger("midh");
             Invoke("SpawnHitbox", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("f") && grounded)
         {
             Invoke("SpawnHigh", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("g") && grounded)
         {
             Invoke("SpawnLow", 1);
-
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
-
     }
 
     void SpawnHitbox()

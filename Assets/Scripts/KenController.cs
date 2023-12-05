@@ -8,9 +8,12 @@ public class KenController : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float height;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar1 healthBar;
+    public int damage = 10;
 
     public Rigidbody2D rb;
-
 
     private bool grounded;
     private bool crouch;
@@ -20,6 +23,8 @@ public class KenController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -27,6 +32,9 @@ public class KenController : MonoBehaviour
         if (other.gameObject.CompareTag("Grounded"))
         {
             grounded = true;
+        } else if (other.gameObject.CompareTag("Player")) { // colliding with the opponent's attack
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
         }
     }
 
@@ -69,6 +77,5 @@ public class KenController : MonoBehaviour
         {
             crouch = false;
         }
-
     }
 }

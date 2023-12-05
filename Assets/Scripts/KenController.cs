@@ -24,6 +24,8 @@ public class KenController : MonoBehaviour
 
     private bool grounded;
     private bool crouch;
+    private bool highblock;
+    private bool lowblock;
 
     // Start is called before the first frame update
     void Start()
@@ -54,11 +56,21 @@ public class KenController : MonoBehaviour
         animator.SetFloat("speed", 0);
         animator.SetBool("jumping", !grounded);
         animator.SetBool("crouching", crouch);
+        highblock = false;
+        lowblock = false; 
 
         if (Input.GetKey("a") && grounded)
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);
             animator.SetFloat("speed", -1);
+            if (Input.GetKey("s"))
+            {
+                lowblock = true; 
+            }
+            else
+            {
+                highblock = true;
+            }
         }
         if (Input.GetKey("d") && grounded)
         {
@@ -73,9 +85,10 @@ public class KenController : MonoBehaviour
         {
             rb.velocity = new Vector2(0, height);
         }
-        if (Input.GetKey("s") && grounded && !(Input.GetKey("d") || Input.GetKeyDown("w") || Input.GetKey("a")))
+        if (Input.GetKey("s") && grounded)
         {
             crouch = true;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
         else
         {

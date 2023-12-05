@@ -21,6 +21,8 @@ public class RyuController : MonoBehaviour
 
     private bool grounded;
     private bool crouch;
+    private bool highblock;
+    private bool lowblock;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +51,8 @@ public class RyuController : MonoBehaviour
         animate.SetFloat("speed", 0);
         animate.SetBool("jumping", !grounded);
         animate.SetBool("crouching", crouch);
+        highblock = false; 
+        lowblock = false;
 
         if (Input.GetKey("left") && grounded)
         {
@@ -59,6 +63,14 @@ public class RyuController : MonoBehaviour
         {
             rb.velocity = new Vector2(speed, rb.velocity.y);
             animate.SetFloat("speed", 1);
+            if (Input.GetKey("down"))
+            {
+                lowblock = true; 
+            }
+            else
+            {
+                highblock = true;
+            }
         }
         if (Input.GetKeyDown("up") && (Input.GetKey("right") || Input.GetKey("left")) && grounded)
         {
@@ -68,17 +80,15 @@ public class RyuController : MonoBehaviour
         {
             rb.velocity = new Vector2(0, height);
         }
-        if (Input.GetKey("down") && grounded  && !(Input.GetKey("left") || Input.GetKeyDown("up") || Input.GetKey("right")))
+        if (Input.GetKey("down") && grounded)
         {
             crouch = true;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
         else
         {
             crouch = false;
         }
-
-
-
         //buttons
 
         if (Input.GetKeyDown("o") && grounded)

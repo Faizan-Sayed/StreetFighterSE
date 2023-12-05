@@ -18,18 +18,27 @@ public class KenController : MonoBehaviour
 
     public LayerMask ryulayer;
 
-    public Rigidbody2D rb;
-
     public Animator animator;
 
+    public Rigidbody2D rb;
+
     private bool grounded;
-    private bool crouch;
+    public bool crouch;
+    private bool highblock;
+    private bool lowblock;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar1 healthBar;
+    public int damage = 10;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+        StartCoroutine(CheckDeath(0.1f));
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -37,6 +46,11 @@ public class KenController : MonoBehaviour
         if (other.gameObject.CompareTag("Grounded"))
         {
             grounded = true;
+        }
+        else if (other.gameObject.CompareTag("Player"))
+        { // colliding with the opponent's attack
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
         }
     }
 
@@ -55,11 +69,33 @@ public class KenController : MonoBehaviour
         animator.SetFloat("speed", 0);
         animator.SetBool("jumping", !grounded);
         animator.SetBool("crouching", crouch);
+        highblock = false;
+        lowblock = false;
 
+        move();
+        attacks();
+    }
+
+    public void Damage(int x)
+    {
+        currentHealth -= x;
+        healthBar.SetHealth(currentHealth);
+    }
+
+    void move()
+    {
         if (Input.GetKey("a") && grounded)
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);
             animator.SetFloat("speed", -1);
+            if (Input.GetKey("s"))
+            {
+                lowblock = true;
+            }
+            else
+            {
+                highblock = true;
+            }
         }
         if (Input.GetKey("d") && grounded)
         {
@@ -74,58 +110,91 @@ public class KenController : MonoBehaviour
         {
             rb.velocity = new Vector2(0, height);
         }
-        if (Input.GetKey("s") && grounded && !(Input.GetKey("d") || Input.GetKeyDown("w") || Input.GetKey("a")))
+        if (Input.GetKey("s") && grounded)
         {
             crouch = true;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
         else
         {
             crouch = false;
         }
+    }
 
-        // attacks time!
-
-
-
+    void attacks()
+    {
         if (Input.GetKeyDown("r") && grounded)
         {
             animator.SetTrigger("mid");
             Invoke("SpawnHitbox", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("t") && grounded)
         {
             animator.SetTrigger("midh");
-            Invoke("SpawnHitbox", 2);
-
+            Invoke("SpawnHitbox", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
         if (Input.GetKeyDown("f") && grounded)
         {
-            Invoke("SpawnHigh", 2);
+            Invoke("SpawnHigh", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("g") && grounded)
         {
             Invoke("SpawnLow", 1);
-
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
-
+    }
+    IEnumerator CheckDeath(float waitTime)
+    {
+        while(true) {
+            if (currentHealth <= 0) 
+            {
+                Debug.Log("Game Over!");
+            }
+            yield return new WaitForSeconds(waitTime);
+        }
     }
 
     void SpawnHitbox()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Mid.position, rangemid, ryulayer);
+        foreach(Collider2D player in hit)
+        {
+            if (player.GetComponent<RyuController>().rb.velocity.x >= 0)
+            {
+                player.GetComponent<RyuController>().Damage(15); 
+            }
+        }
+
     }
 
     void SpawnLow()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Low.position, rangelow, ryulayer);
         animator.SetTrigger("low");
+        foreach (Collider2D player in hit)
+        {
+            if (player.GetComponent<RyuController>().rb.velocity.x >= 0 && player.GetComponent<RyuController>().crouch == false)
+            {
+                player.GetComponent<RyuController>().Damage(20);
+            }
+        }
     }
 
     void SpawnHigh()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(High.position, rangehigh, ryulayer);
         animator.SetTrigger("high");
+        foreach (Collider2D player in hit)
+        {
+            if (player.GetComponent<RyuController>().rb.velocity.x >= 0 && player.GetComponent<RyuController>().crouch == true)
+            {
+                player.GetComponent<RyuController>().Damage(30);
+            }
+        }
     }
 }

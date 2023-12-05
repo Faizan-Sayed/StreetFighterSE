@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestingCollision : MonoBehaviour
 {
     public float health = 10f;
+    public float 
     // Start is called before the first frame update
     void Start()
     {
@@ -19,5 +20,11 @@ public class TestingCollision : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col) {
         health--;
+        Debug.Log(health);
+    }
+
+    void OnCollisionExit2D() 
+    {
+
     }
 }

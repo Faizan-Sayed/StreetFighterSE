@@ -6,6 +6,9 @@ public class RyuController : MonoBehaviour
 {
     [SerializeField] private float speed;
     [SerializeField] private float height;
+    public Rigidbody2D rb;
+    private bool grounded;
+    private bool crouch;
 
     public Transform Mid;
     [SerializeField] private float rangemid;
@@ -15,25 +18,32 @@ public class RyuController : MonoBehaviour
     [SerializeField] private float rangelow;
 
     public LayerMask kenlayer;
-
-    public Rigidbody2D rb;
     public Animator animate;
-
-    private bool grounded;
-    private bool crouch;
     private bool highblock;
     private bool lowblock;
+    
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar2 healthBar;
+    public int damage = 10;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
+
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Grounded"))
         {
             grounded = true;
+        } else if (other.gameObject.CompareTag("Player")) { // colliding with the opponent's attack
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
         }
     }
 

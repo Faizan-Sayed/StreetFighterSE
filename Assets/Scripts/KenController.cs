@@ -18,20 +18,27 @@ public class KenController : MonoBehaviour
 
     public LayerMask ryulayer;
 
-    public Rigidbody2D rb;
-
     public Animator animator;
+
+    public Rigidbody2D rb;
 
     private bool grounded;
     private bool crouch;
     private bool highblock;
     private bool lowblock;
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar1 healthBar;
+    public int damage = 10;
+
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.freezeRotation = true;
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -39,6 +46,9 @@ public class KenController : MonoBehaviour
         if (other.gameObject.CompareTag("Grounded"))
         {
             grounded = true;
+        } else if (other.gameObject.CompareTag("Player")) { // colliding with the opponent's attack
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
         }
     }
 
@@ -100,9 +110,9 @@ public class KenController : MonoBehaviour
         {
             crouch = false;
         }
-    }
-    void attacks() 
-    {
+
+        // attacks time!
+
         if (Input.GetKeyDown("r") && grounded)
         {
             animator.SetTrigger("mid");

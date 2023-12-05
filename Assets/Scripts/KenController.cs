@@ -111,8 +111,8 @@ public class KenController : MonoBehaviour
             crouch = false;
         }
 
-        // attacks time!
-
+    void attacks()
+    {
         if (Input.GetKeyDown("r") && grounded)
         {
             animator.SetTrigger("mid");

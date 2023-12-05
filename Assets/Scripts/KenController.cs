@@ -46,7 +46,9 @@ public class KenController : MonoBehaviour
         if (other.gameObject.CompareTag("Grounded"))
         {
             grounded = true;
-        } else if (other.gameObject.CompareTag("Player")) { // colliding with the opponent's attack
+        }
+        else if (other.gameObject.CompareTag("Player"))
+        { // colliding with the opponent's attack
             currentHealth -= damage;
             healthBar.SetHealth(currentHealth);
         }
@@ -67,15 +69,21 @@ public class KenController : MonoBehaviour
         animator.SetBool("jumping", !grounded);
         animator.SetBool("crouching", crouch);
         highblock = false;
-        lowblock = false; 
+        lowblock = false;
 
+        move();
+        attacks();
+    }
+
+    void move()
+    {
         if (Input.GetKey("a") && grounded)
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);
             animator.SetFloat("speed", -1);
             if (Input.GetKey("s"))
             {
-                lowblock = true; 
+                lowblock = true;
             }
             else
             {
@@ -104,32 +112,34 @@ public class KenController : MonoBehaviour
         {
             crouch = false;
         }
+    }
 
-        // attacks time!
-
+    void attacks()
+    {
         if (Input.GetKeyDown("r") && grounded)
         {
             animator.SetTrigger("mid");
             Invoke("SpawnHitbox", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("t") && grounded)
         {
             animator.SetTrigger("midh");
             Invoke("SpawnHitbox", 1);
-
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
         if (Input.GetKeyDown("f") && grounded)
         {
             Invoke("SpawnHigh", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("g") && grounded)
         {
             Invoke("SpawnLow", 1);
-
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
-
     }
     IEnumerator CheckDeath(float waitTime)
     {
@@ -145,7 +155,7 @@ public class KenController : MonoBehaviour
     void SpawnHitbox()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Mid.position, rangemid, ryulayer);
-        
+
     }
 
     void SpawnLow()
@@ -159,6 +169,5 @@ public class KenController : MonoBehaviour
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(High.position, rangehigh, ryulayer);
         animator.SetTrigger("high");
-
     }
 }

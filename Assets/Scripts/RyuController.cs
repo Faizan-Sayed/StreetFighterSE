@@ -65,6 +65,12 @@ public class RyuController : MonoBehaviour
         highblock = false; 
         lowblock = false;
 
+        move();
+        attacks();
+    }
+
+    void move() 
+    {
         if (Input.GetKey("left") && grounded)
         {
             rb.velocity = new Vector2(-speed, rb.velocity.y);
@@ -100,28 +106,34 @@ public class RyuController : MonoBehaviour
         {
             crouch = false;
         }
-        //buttons
+    }
 
+    void attacks() 
+    {
         if (Input.GetKeyDown("o") && grounded)
         {
             animate.SetTrigger("HP");
             Invoke("SpawnHitbox", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown(";") && grounded)
         {
             animate.SetTrigger("MK");
             Invoke("SpawnHitbox", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("l") && grounded)
         {
             Invoke("SpawnHigh", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
         if (Input.GetKeyDown("p") && grounded)
         {
             Invoke("SpawnLow", 1);
+            rb.velocity = new Vector2(0, rb.velocity.y);
 
         }
     }

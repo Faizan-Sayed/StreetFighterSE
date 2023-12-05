@@ -68,7 +68,7 @@ public class RyuController : MonoBehaviour
         {
             rb.velocity = new Vector2(0, height);
         }
-        if (Input.GetKey("down") && grounded  && !(Input.GetKey("d") || Input.GetKeyDown("w") || Input.GetKey("a")))
+        if (Input.GetKey("down") && grounded  && !(Input.GetKey("left") || Input.GetKeyDown("up") || Input.GetKey("right")))
         {
             crouch = true;
         }

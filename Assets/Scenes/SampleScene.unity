@@ -1470,9 +1470,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 991992988168234932, guid: df3902f7c909bef46b388bc10b5e91e5, type: 3}
+      propertyPath: rangelow
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 991992988168234932, guid: df3902f7c909bef46b388bc10b5e91e5, type: 3}
+      propertyPath: rangemid
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 991992988168234932, guid: df3902f7c909bef46b388bc10b5e91e5, type: 3}
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 1499383602}
+    - target: {fileID: 991992988168234932, guid: df3902f7c909bef46b388bc10b5e91e5, type: 3}
+      propertyPath: rangehigh
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5257759435325753472, guid: df3902f7c909bef46b388bc10b5e91e5, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -1535,9 +1547,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 847374121992938409, guid: 17cc7f3b4a1f972498365b38959c7891, type: 3}
+      propertyPath: rangelow
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 847374121992938409, guid: 17cc7f3b4a1f972498365b38959c7891, type: 3}
+      propertyPath: rangemid
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 847374121992938409, guid: 17cc7f3b4a1f972498365b38959c7891, type: 3}
       propertyPath: healthBar
       value: 
       objectReference: {fileID: 660878684}
+    - target: {fileID: 847374121992938409, guid: 17cc7f3b4a1f972498365b38959c7891, type: 3}
+      propertyPath: rangehigh
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4916502640486230009, guid: 17cc7f3b4a1f972498365b38959c7891, type: 3}
       propertyPath: m_Name
       value: PlayerKen Variant 1

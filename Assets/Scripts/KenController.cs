@@ -23,7 +23,7 @@ public class KenController : MonoBehaviour
     public Rigidbody2D rb;
 
     private bool grounded;
-    private bool crouch;
+    public bool crouch;
     private bool highblock;
     private bool lowblock;
     public int maxHealth = 100;
@@ -73,6 +73,12 @@ public class KenController : MonoBehaviour
 
         move();
         attacks();
+    }
+
+    public void Damage(int x)
+    {
+        currentHealth -= x;
+        healthBar.SetHealth(currentHealth);
     }
 
     void move()
@@ -145,6 +151,13 @@ public class KenController : MonoBehaviour
     void SpawnHitbox()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Mid.position, rangemid, ryulayer);
+        foreach(Collider2D player in hit)
+        {
+            if (player.GetComponent<RyuController>().rb.velocity.x >= 0)
+            {
+                player.GetComponent<RyuController>().Damage(15); 
+            }
+        }
 
     }
 
@@ -152,12 +165,25 @@ public class KenController : MonoBehaviour
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Low.position, rangelow, ryulayer);
         animator.SetTrigger("low");
-
+        foreach (Collider2D player in hit)
+        {
+            if (player.GetComponent<RyuController>().rb.velocity.x >= 0 && player.GetComponent<RyuController>().crouch == false)
+            {
+                player.GetComponent<RyuController>().Damage(20);
+            }
+        }
     }
 
     void SpawnHigh()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(High.position, rangehigh, ryulayer);
         animator.SetTrigger("high");
+        foreach (Collider2D player in hit)
+        {
+            if (player.GetComponent<RyuController>().rb.velocity.x >= 0 && player.GetComponent<RyuController>().crouch == true)
+            {
+                player.GetComponent<RyuController>().Damage(30);
+            }
+        }
     }
 }

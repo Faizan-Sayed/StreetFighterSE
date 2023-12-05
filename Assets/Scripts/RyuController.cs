@@ -8,7 +8,7 @@ public class RyuController : MonoBehaviour
     [SerializeField] private float height;
     public Rigidbody2D rb;
     private bool grounded;
-    private bool crouch;
+    public bool crouch;
 
     public Transform Mid;
     [SerializeField] private float rangemid;
@@ -66,6 +66,12 @@ public class RyuController : MonoBehaviour
 
         move();
         attacks();
+    }
+
+    public void Damage(int x)
+    {
+        currentHealth -= x;
+        healthBar.SetHealth(currentHealth);
     }
 
     void move() 
@@ -139,17 +145,38 @@ public class RyuController : MonoBehaviour
     void SpawnHitbox()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Mid.position, rangemid, kenlayer);
+        foreach (Collider2D player in hit)
+        {
+            if (player.GetComponent<KenController>().rb.velocity.x >= 0)
+            {
+                player.GetComponent<KenController>().Damage(15);
+            }
+        }
     }
 
     void SpawnLow()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Low.position, rangelow, kenlayer);
         animate.SetTrigger("HK");
+        foreach (Collider2D player in hit)
+        {
+            if (player.GetComponent<KenController>().rb.velocity.x >= 0 && player.GetComponent<KenController>().crouch == false)
+            {
+                player.GetComponent<KenController>().Damage(20);
+            }
+        }
     }
 
     void SpawnHigh()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(High.position, rangehigh, kenlayer);
         animate.SetTrigger("MP");
+        foreach (Collider2D player in hit)
+        {
+            if (player.GetComponent<KenController>().rb.velocity.x >= 0 && player.GetComponent<KenController>().crouch == true)
+            {
+                player.GetComponent<KenController>().Damage(30);
+            }
+        }
     }
 }

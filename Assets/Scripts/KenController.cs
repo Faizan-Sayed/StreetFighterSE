@@ -114,17 +114,20 @@ public class KenController : MonoBehaviour
     void SpawnHitbox()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Mid.position, rangemid, ryulayer);
+        
     }
 
     void SpawnLow()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(Low.position, rangelow, ryulayer);
         animator.SetTrigger("low");
+
     }
 
     void SpawnHigh()
     {
         Collider2D[] hit = Physics2D.OverlapCircleAll(High.position, rangehigh, ryulayer);
         animator.SetTrigger("high");
+
     }
 }

@@ -7,6 +7,15 @@ public class RyuController : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float height;
 
+    public Transform Mid;
+    [SerializeField] private float rangemid;
+    public Transform High;
+    [SerializeField] private float rangehigh;
+    public Transform Low;
+    [SerializeField] private float rangelow;
+
+    public LayerMask kenlayer;
+
     public Rigidbody2D rb;
     public Animator animate;
 
@@ -39,6 +48,7 @@ public class RyuController : MonoBehaviour
     {
         animate.SetFloat("speed", 0);
         animate.SetBool("jumping", !grounded);
+        animate.SetBool("crouching", crouch);
 
         if (Input.GetKey("left") && grounded)
         {
@@ -67,5 +77,47 @@ public class RyuController : MonoBehaviour
             crouch = false;
         }
 
+
+
+        //buttons
+
+        if (Input.GetKeyDown("o") && grounded)
+        {
+            animate.SetTrigger("HP");
+            Invoke("SpawnHitbox", 1);
+
+        }
+        if (Input.GetKeyDown(";") && grounded)
+        {
+            animate.SetTrigger("MK");
+            Invoke("SpawnHitbox", 2);
+
+        }
+        if (Input.GetKeyDown("l") && grounded)
+        {
+            Invoke("SpawnHigh", 2);
+
+        }
+        if (Input.GetKeyDown("p") && grounded)
+        {
+            Invoke("SpawnLow", 1);
+
+        }
+    }
+    void SpawnHitbox()
+    {
+        Collider2D[] hit = Physics2D.OverlapCircleAll(Mid.position, rangemid, kenlayer);
+    }
+
+    void SpawnLow()
+    {
+        Collider2D[] hit = Physics2D.OverlapCircleAll(Low.position, rangelow, kenlayer);
+        animate.SetTrigger("HK");
+    }
+
+    void SpawnHigh()
+    {
+        Collider2D[] hit = Physics2D.OverlapCircleAll(High.position, rangehigh, kenlayer);
+        animate.SetTrigger("MP");
     }
 }

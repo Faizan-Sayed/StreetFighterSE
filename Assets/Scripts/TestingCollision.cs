@@ -19,6 +19,5 @@ public class TestingCollision : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col) {
         health--;
-        Debug.Log(health);
     }
 }

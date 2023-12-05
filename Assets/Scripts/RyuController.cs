@@ -90,12 +90,12 @@ public class RyuController : MonoBehaviour
         if (Input.GetKeyDown(";") && grounded)
         {
             animate.SetTrigger("MK");
-            Invoke("SpawnHitbox", 2);
+            Invoke("SpawnHitbox", 1);
 
         }
         if (Input.GetKeyDown("l") && grounded)
         {
-            Invoke("SpawnHigh", 2);
+            Invoke("SpawnHigh", 1);
 
         }
         if (Input.GetKeyDown("p") && grounded)

@@ -95,12 +95,12 @@ public class KenController : MonoBehaviour
         if (Input.GetKeyDown("t") && grounded)
         {
             animator.SetTrigger("midh");
-            Invoke("SpawnHitbox", 2);
+            Invoke("SpawnHitbox", 1);
 
         }
         if (Input.GetKeyDown("f") && grounded)
         {
-            Invoke("SpawnHigh", 2);
+            Invoke("SpawnHigh", 1);
 
         }
         if (Input.GetKeyDown("g") && grounded)
